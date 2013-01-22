@@ -1,0 +1,15 @@
+package com.pfailla.engine;
+
+/**
+* @Author: Pierluigi Failla <pierluigi.failla@gmail.com>
+* https://sites.google.com/site/zeta/ingress-passcodes
+* Started 21 Jan 2013
+*
+* The following class is dedicate to create the statistical model of the passcodes
+*/
+
+public class Model {
+	
+	
+	
+}

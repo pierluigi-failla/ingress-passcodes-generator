@@ -1,0 +1,92 @@
+package com.pfailla.engine;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+
+import android.util.Log;
+
+/**
+* @Author: Pierluigi Failla <pierluigi.failla@gmail.com>
+* https://sites.google.com/site/zeta/ingress-passcodes
+* Started 21 Jan 2013
+*
+* The following class is dedicate to create the statistical model of the passcodes
+* 
+* #  L  L  #  W L  #  L  #  L
+* N1 L2 L3 N4 W L5 N6 L7 N8 L9
+*/
+
+public class Model {
+	
+	private String TAG = "Model";
+	
+	private enum Parts{
+		N1, L2, L3, N4, W, L5, N6, L7, N8, L9;
+	}
+	
+	private ArrayList<Item> N1 = new ArrayList<Item>();
+	private ArrayList<Item> L2 = new ArrayList<Item>();
+	private ArrayList<Item> L3 = new ArrayList<Item>();
+	private ArrayList<Item> N4 = new ArrayList<Item>();
+	private ArrayList<Item> W = new ArrayList<Item>();
+	private ArrayList<Item> L5 = new ArrayList<Item>();
+	private ArrayList<Item> N6 = new ArrayList<Item>();
+	private ArrayList<Item> L7 = new ArrayList<Item>();
+	private ArrayList<Item> N8 = new ArrayList<Item>();
+	private ArrayList<Item> L9 = new ArrayList<Item>();
+	
+	public Model(){
+		
+	}
+	
+	/*
+	 * load() from the remote file the statistics
+	 * 
+	 * I'm expecting a three columns separated by one space e.g. :
+	 * N1 3 132
+	 * L2 z 43
+	 */
+	boolean load(){
+		String str_url = "https://dl.dropbox.com/u/684525/codes";
+	    URL url = null;
+		try {
+			url = new URL (str_url);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			Log.e(TAG, e.toString());
+			return false;
+		}
+	    BufferedReader br = null;
+		try {
+			br = new BufferedReader (new InputStreamReader (url.openConnection ().getInputStream ()));
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.e(TAG, e.toString());
+			return false;
+		}
+		
+		String line = "";
+	    do
+	    {
+	        try {
+				line = br.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+				Log.e(TAG, e.toString());
+				return false;
+			}
+	        if (line != null){
+	        	String tokens[] = line.trim().split(" ");
+	        	switch(Parts.valueOf(tokens[0].trim())){
+	        		
+	        	}
+	        }
+	    }while (line != null);
+		
+		return true;
+	}
+}

@@ -1,0 +1,4 @@
+INDEX VERSION 1.126+C:\Users\Pierluigi\Documents\_Documents_\GitHub\ingress-passcodes-generator\android\.metadata\.plugins\org.eclipse.jdt.core
+913684145.index
+544079786.index
+4161103913.index

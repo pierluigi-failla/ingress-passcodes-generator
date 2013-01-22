@@ -1,0 +1,154 @@
+package com.pfailla.engine;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+
+import android.util.Log;
+
+/**
+* @Author: Pierluigi Failla <pierluigi.failla@gmail.com>
+* https://sites.google.com/site/zeta/ingress-passcodes
+* Started 21 Jan 2013
+*
+* The following class is dedicate to create the statistical model of the passcodes
+* 
+* #  L  L  #  W L  #  L  #  L
+* N1 L2 L3 N4 W L5 N6 L7 N8 L9
+*/
+
+public class ModelPasscodeType1 {
+	
+	private String TAG = "Model";
+	
+	private enum Parts{
+		N1, L2, L3, N4, W, L5, N6, L7, N8, L9;
+	}
+	
+	private ArrayList<Item> N1 = new ArrayList<Item>();
+	private ArrayList<Item> L2 = new ArrayList<Item>();
+	private ArrayList<Item> L3 = new ArrayList<Item>();
+	private ArrayList<Item> N4 = new ArrayList<Item>();
+	private ArrayList<Item> W = new ArrayList<Item>();
+	private ArrayList<Item> L5 = new ArrayList<Item>();
+	private ArrayList<Item> N6 = new ArrayList<Item>();
+	private ArrayList<Item> L7 = new ArrayList<Item>();
+	private ArrayList<Item> N8 = new ArrayList<Item>();
+	private ArrayList<Item> L9 = new ArrayList<Item>();
+	
+	public Model(){
+		
+	}
+	
+	/*
+	 * load() from the remote file the statistics
+	 * 
+	 * I'm expecting a three columns separated by one space e.g. :
+	 * N1 3 132
+	 * L2 z 43
+	 */
+	boolean load(){
+		String str_url = "https://dl.dropbox.com/u/684525/codes";
+	    URL url = null;
+		try {
+			url = new URL (str_url);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			Log.e(TAG, e.toString());
+			return false;
+		}
+	    BufferedReader br = null;
+		try {
+			br = new BufferedReader (new InputStreamReader (url.openConnection ().getInputStream ()));
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.e(TAG, e.toString());
+			return false;
+		}
+		
+		String line = "";
+	    do
+	    {
+	        try {
+				line = br.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+				Log.e(TAG, e.toString());
+				return false;
+			}
+	        if (line != null){
+	        	String tokens[] = line.trim().split(" ");
+	        	switch(Parts.valueOf(tokens[0].trim())){
+	        	case N1:
+	        		N1.add(new Item(tokens[1].trim(), Integer.parseInt(tokens[2].trim())));
+	        		break;
+	        	case L2:
+	        		L2.add(new Item(tokens[1].trim(), Integer.parseInt(tokens[2].trim())));
+	        		break;
+	        	case L3:
+	        		L3.add(new Item(tokens[1].trim(), Integer.parseInt(tokens[2].trim())));
+	        		break;
+	        	case N4:
+	        		N4.add(new Item(tokens[1].trim(), Integer.parseInt(tokens[2].trim())));
+	        		break;
+	        	case W:
+	        		W.add(new Item(tokens[1].trim(), Integer.parseInt(tokens[2].trim())));
+	        		break;
+	        	case L5:
+	        		L5.add(new Item(tokens[1].trim(), Integer.parseInt(tokens[2].trim())));
+	        		break;
+	        	case N6:
+	        		N6.add(new Item(tokens[1].trim(), Integer.parseInt(tokens[2].trim())));
+	        		break;
+	        	case L7:
+	        		L7.add(new Item(tokens[1].trim(), Integer.parseInt(tokens[2].trim())));
+	        		break;
+	        	case N8:
+	        		N8.add(new Item(tokens[1].trim(), Integer.parseInt(tokens[2].trim())));
+	        		break;
+	        	case L9:
+	        		L9.add(new Item(tokens[1].trim(), Integer.parseInt(tokens[2].trim())));
+	        		break;
+	        	}
+	        }
+	    }while (line != null);
+	    
+	    Log.d(TAG, "N1 added: "+Integer.toString(N1.size()));
+	    Log.d(TAG, "L2 added: "+Integer.toString(L2.size()));
+	    Log.d(TAG, "L3 added: "+Integer.toString(L3.size()));
+	    Log.d(TAG, "N4 added: "+Integer.toString(N4.size()));
+	    Log.d(TAG, "W added: "+Integer.toString(W.size()));
+	    Log.d(TAG, "L5 added: "+Integer.toString(L5.size()));
+	    Log.d(TAG, "N6 added: "+Integer.toString(N6.size()));
+	    Log.d(TAG, "L7 added: "+Integer.toString(L7.size()));
+	    Log.d(TAG, "N8 added: "+Integer.toString(N8.size()));
+	    Log.d(TAG, "L9 added: "+Integer.toString(L9.size()));
+		
+		return true;
+	}
+	
+	/*
+	 * createSupport() define the intervals for each possible value
+	 * 
+	 */
+	void createSupport(){
+		int bin = 0;
+		for(int i=0; i<N1.size(); i++){
+			bin += N1.get(i).getFrequency();
+			N1.get(i).setBin(bin);
+		}
+		bin = 0;
+		for(int i=0; i<L2.size(); i++){
+			bin += L2.get(i).getFrequency();
+			L2.get(i).setBin(bin);
+		}
+		bin = 0;
+		for(int i=0; i<L3.size(); i++){
+			bin += L3.get(i).getFrequency();
+			L3.get(i).setBin(bin);
+		}
+	}
+}
